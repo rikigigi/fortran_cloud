@@ -1,6 +1,6 @@
 # fortran cloud
 
-fortran module to easy implement a task distributer cloud like network in fortran using zeromq. There is a fixed node (the proxy) and a cloud of workers and work producers that can leave a and join the network at any time.
+fortran module to easy implement a task distributer cloud like network in fortran using zeromq. There is a fixed node (the proxy) and a cloud of workers and work producers that can leave and join the network at any time.
 
 ## build instructions
 This program uses `iso_c_bindings`.
