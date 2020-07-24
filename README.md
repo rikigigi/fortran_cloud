@@ -1,6 +1,6 @@
 # fortran cloud
 
-fortran module to easy implement a task distributer cloud like network in fortran using zeromq
+fortran module to easy implement a task distributer cloud like network in fortran using zeromq. There is a fixed node (the proxy) and a cloud of workers and work producers that can leave a and join the network at any time.
 
 ## build instructions
 This program uses `iso_c_bindings`.
@@ -19,9 +19,10 @@ that's it!
 ## what does it do
 you will find 3 very short example executables, that together build a cloud network:
  - `test_send` generate some work. It does not block. Once a second checks, without blocking, if some results are available. The work is sent to the proxy (the only part of the network that must be fixed).
- - `test_proxy` get the work and distributes it to the workers. It use a queue to fo a fair distribution. The address of the proxy must be fixed.
+ - `test_proxy` get the work and distributes it to the workers. It use a queue to implement a fair work distribution. The address of the proxy must be fixed.
  - `test_recv` wait for the work (while waiting it is blocked), it does it, and then sends the result back to the proxy, that will send it back to the correct task that generated the work.
-In the network there can be as many senders and as many workers as you want. There must be one proxy.
+ 
+In the network there can be as many senders and as many workers as you want. There must be one proxy. The senders and the workers can join or leave the network at any time.
 
 ## module interface
 The interface of the module is very simple. There is a custom type to store the instance of the module (you must have one for each thread, you cannot share it between more threads) that the worker generator program must init once with:
