@@ -2,7 +2,7 @@ F90=gfortran
 F90FLAGS=-I. -g
 
 CLOUD_PREFIX=..
-include make.inc
+include cloud.inc
 
 LIBS=$(CLOUD_FLAGS)
 LIBOBJ=$(CLOUD_OBJ)
