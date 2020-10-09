@@ -1,7 +1,7 @@
 
 F90=gfortran
 F90FLAGS=-I. -g
-LIBS=-I../dependency/include -L../dependency/lib -lzmq -lfzmq
+LIBS=-I../dependency/include -L../dependency/lib ../dependency/lib/libzmq.a -lfzmq -lstdc++ -lc -lpthread -lbsd
 
 
 LIBOBJ=cloud_0mq.o
