@@ -1,10 +1,11 @@
-
 F90=gfortran
 F90FLAGS=-I. -g
-LIBS=-I../dependency/include -L../dependency/lib ../dependency/lib/libzmq.a -lfzmq -lstdc++ -lc -lpthread -lbsd
 
+CLOUD_PREFIX=..
+include make.inc
 
-LIBOBJ=cloud_0mq.o
+LIBS=$(CLOUD_FLAGS)
+LIBOBJ=$(CLOUD_OBJ)
 
 all: test_send test_proxy test_recv
 
