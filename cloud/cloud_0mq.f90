@@ -87,7 +87,7 @@ contains
       CHARACTER(KIND=C_CHAR, LEN=:), TARGET, ALLOCATABLE :: BUFFER
       CHARACTER(KIND=C_CHAR, LEN=:), POINTER :: RANGE
       real(kind=c_double), pointer :: d_(:)
-
+      integer :: i, s_data(2)
       s_ = 0
       size_ = c_sizeof(d)*size(data) + c_sizeof(tag)
       ALLOCATE (CHARACTER(KIND=C_CHAR, LEN=SIZE_) :: BUFFER)
@@ -101,8 +101,12 @@ contains
       range => buffer(1:c_sizeof(tag))
       tag = transfer(range, tag)
       range => buffer(c_sizeof(tag):size_)
-      d_ => data(:, 1)
-      d_ = transfer(range, data)
+      !d_ => data
+      !d_ => transfer(range, d_)
+      s_data=shape(data)
+      do i=1, s_data(2)
+         data(:,i) = transfer(range((i-1)*s_data(1)*c_sizeof(d)+1:i*s_data(1)*c_sizeof(d)),data(:,i))
+      enddo
 
       deallocate (buffer)
    end subroutine
