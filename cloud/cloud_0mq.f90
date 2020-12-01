@@ -128,7 +128,7 @@ contains
       res = zmq_poll(poll, nitems, timeout)
       write (*, *) 'poll:', res
       write (*, *) 'poll:', poll(1)%revents
-      if (iand(poll(1)%revents, zmq_pollin) /= 0) then ! there is a new message, read it!
+      if (iand(poll(1)%revents, int(zmq_pollin,C_SHORT)) /= 0) then ! there is a new message, read it!
          call zeromq_ctx_recv(z, data, tag)
          recv = 1
       end if
