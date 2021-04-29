@@ -12,7 +12,133 @@ module cloud_0mq
       logical :: recv_empty_frame = .false.
    end type
 
+   !write like interface
+   type :: zeromq_packet
+      character(kind=c_char), pointer :: data(:)
+      integer :: data_size = 0
+      integer :: allocated_size = 0
+      integer :: read_position = 0
+      integer :: sent = 0
+   end type
+
 contains
+   !write like interface
+
+   subroutine zeromq_packet_realloc(z, requested_size)
+      type(zeromq_packet), intent(inout) :: z
+      integer,intent(in) :: requested_size
+      character(kind=c_char), target, allocatable :: tmp(:)
+      if (.not. associated(z%data)) then
+         allocate(z%data(requested_size))
+         z%allocated_size = requested_size
+         z%data_size=0
+         z%read_position=1
+      else
+         if (z%allocated_size < requested_size) then
+            allocate(tmp(requested_size))
+            if (z%data_size>0) &
+                tmp(1:z%data_size)=z%data(1:z%data_size)
+            deallocate(z%data)
+            z%data=>tmp
+            z%allocated_size=requested_size
+         endif
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_reset(z)
+      type(zeromq_packet), intent(inout) :: z
+      z%data_size=0
+      z%read_position=1
+   end subroutine
+
+   subroutine zeromq_packet_append(z, wdata, data_size)
+      type(zeromq_packet), intent(inout) :: z
+      character(kind=c_char), intent(in) :: wdata(:)
+      integer,intent(in) :: data_size
+
+      if (data_size + z%data_size > z%allocated_size) &
+          call zeromq_packet_realloc(z,(data_size + z%data_size)*3/2) ! alloc some extra space
+      z%data(1+z%data_size:z%data_size+data_size)=wdata(1:data_size)
+      z%data_size=z%data_size+data_size
+   end subroutine
+
+   subroutine zeromq_packet_read(z, rdata, data_size)
+      type(zeromq_packet), intent(inout) :: z
+      integer, intent(in) :: data_size
+      character(kind=c_char), intent(inout) :: rdata(:)
+      if (z%read_position + data_size <= z%data_size ) then
+         if (data_size > 0) then
+            rdata(1:data_size) = z%data(z%read_position:z%read_position+data_size-1)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet'
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_send(packet,z)
+      use iso_c_binding, only : c_null_funptr, c_null_ptr
+      type(zeromq_ctx), intent(inout) :: z
+      type(zeromq_packet), intent(inout) :: packet
+      type(zmq_msg_t) :: msg
+      INTEGER(KIND=C_SIZE_T) :: SIZE_, s_
+      character(kind=c_char) :: d
+      integer :: rc
+
+      size_ = c_sizeof(d)*packet%data_size
+      s_ = 0
+      !zeromq take ownership of data array
+      rc = zmq_msg_init_data(msg, c_loc(packet%data), size_,c_null_funptr,c_null_ptr)
+      if (rc /= 0) then
+         write (*,*) 'ERROR: zmq_msg_init_data returned ', rc, ' size was ', size_
+      else
+         if (z%send_empty_frame) then
+            z%ret = zmq_send(z%socket, c_loc(packet%data), s_, zmq_sndmore)
+         endif
+         z%ret = zmq_msg_send(msg, z%socket, 0)
+         if (z%ret /= size_ ) then
+             write (*,*) 'ERROR: zmq_msg_send returned ', z%ret, ' size was ', size_
+         else
+             packet%sent = z%ret
+         endif
+      endif
+
+   end subroutine
+
+   subroutine zeromq_packet_recv(packet, z)
+      type(zeromq_ctx), intent(inout) :: z
+      type(zeromq_packet), intent(inout) :: packet
+      INTEGER(KIND=C_SIZE_T) ::  s_
+      character(kind=c_char) :: d
+      type(zmq_msg_t) :: msg
+      integer :: rc
+      character(kind=c_char), pointer :: data_p (:)
+
+      s_ = 0
+      rc = zmq_msg_init(msg)
+      if ( rc /= 0) then
+         write (*,*) 'ERROR: zmq_msg_init returned ', rc
+      else
+         if (z%recv_empty_frame) then
+            write (*, *) 'waiting for first recv (empty message)'
+            z%ret = zmq_recv(z%socket, c_loc(packet%data), s_, 0)
+         endif
+         write (*, *) 'waiting for recv'
+         z%ret = zmq_msg_recv(msg, z%socket,  0)
+         if (z%ret >= 0) then
+             write (*, *) 'recv ', z%ret, ' bytes of data: copying it'
+             call zeromq_packet_reset(packet)
+             call zeromq_packet_realloc(packet, z%ret)
+             call c_f_pointer(zmq_msg_data(msg), data_p, [z%ret] )
+             packet%data(1:z%ret) = data_p(1:z%ret)
+             rc = zmq_msg_close(msg) 
+         else
+             write (*,*) 'ERROR: zmq_msg_recv returned ', z%ret
+         endif
+      endif
+   end subroutine
 
    !initialization routines for generic, dealer and reply sockets
    subroutine zeromq_ctx_init_type(z, address, socket_type)
