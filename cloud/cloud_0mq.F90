@@ -21,8 +21,13 @@ module cloud_0mq
       integer :: sent = 0
    end type
 
+#include "module_procedures.fh"
+
+
 contains
    !write like interface
+
+#include "contains_sub.fh"
 
    subroutine zeromq_packet_realloc(z, requested_size)
       type(zeromq_packet), intent(inout) :: z
@@ -35,12 +40,17 @@ contains
          z%read_position=1
       else
          if (z%allocated_size < requested_size) then
-            allocate(tmp(requested_size))
-            if (z%data_size>0) &
+            if (z%data_size>0) then
+                allocate(tmp(z%allocated_size))
                 tmp(1:z%data_size)=z%data(1:z%data_size)
+            endif
             deallocate(z%data)
-            z%data=>tmp
+            allocate(z%data(requested_size))
             z%allocated_size=requested_size
+            if (z%data_size>0) then
+                z%data(1:z%data_size)=tmp(1:z%data_size)
+                deallocate(tmp)
+            endif
          endif
       endif
    end subroutine
@@ -51,7 +61,7 @@ contains
       z%read_position=1
    end subroutine
 
-   subroutine zeromq_packet_append(z, wdata, data_size)
+   subroutine zeromq_packet_append_char(z, wdata, data_size)
       type(zeromq_packet), intent(inout) :: z
       character(kind=c_char), intent(in) :: wdata(:)
       integer,intent(in) :: data_size
@@ -62,7 +72,7 @@ contains
       z%data_size=z%data_size+data_size
    end subroutine
 
-   subroutine zeromq_packet_read(z, rdata, data_size)
+   subroutine zeromq_packet_read_char(z, rdata, data_size)
       type(zeromq_packet), intent(inout) :: z
       integer, intent(in) :: data_size
       character(kind=c_char), intent(inout) :: rdata(:)
@@ -102,6 +112,9 @@ contains
              write (*,*) 'ERROR: zmq_msg_send returned ', z%ret, ' size was ', size_
          else
              packet%sent = z%ret
+             nullify(packet%data)
+             packet%allocated_size=0
+             call zeromq_packet_reset(packet)
          endif
       endif
 
@@ -133,11 +146,32 @@ contains
              call zeromq_packet_realloc(packet, z%ret)
              call c_f_pointer(zmq_msg_data(msg), data_p, [z%ret] )
              packet%data(1:z%ret) = data_p(1:z%ret)
+             packet%data_size = z%ret
              rc = zmq_msg_close(msg) 
          else
              write (*,*) 'ERROR: zmq_msg_recv returned ', z%ret
          endif
       endif
+   end subroutine
+   subroutine zeromq_packet_try_to_recv(packet, z, recv)
+      type(zeromq_ctx), intent(inout) :: z
+      type(zeromq_packet), intent(inout) :: packet
+      integer, intent(out) :: recv
+      integer(kind=c_int) :: nitems, res
+      integer(kind=c_long) :: timeout
+      type(zmq_pollitem_t), dimension(1) :: poll
+      nitems = 1
+      timeout = 0
+      recv = 0
+      poll(1)%socket = z%socket
+      poll(1)%events = zmq_pollin
+      res = zmq_poll(poll, nitems, timeout)
+      write (*, *) 'poll:', res
+      write (*, *) 'poll:', poll(1)%revents
+      if (iand(poll(1)%revents, int(zmq_pollin,C_SHORT)) /= 0) then ! there is a new message, read it!
+         call zeromq_packet_recv(packet, z)
+         recv = 1
+      end if
    end subroutine
 
    !initialization routines for generic, dealer and reply sockets
