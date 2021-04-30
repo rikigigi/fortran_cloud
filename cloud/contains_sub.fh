@@ -1,0 +1,1344 @@
+
+   subroutine zeromq_packet_append_complex_4_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = transfer(z%data(z%read_position:z%read_position+data_size-1),a)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:,:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:,:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:,:,:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:,:,:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_4_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(in) :: a(:,:,:,:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_4_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=4), intent(inout) :: a(:,:,:,:,:,:,:)
+      complex(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = transfer(z%data(z%read_position:z%read_position+data_size-1),a)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:,:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:,:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:,:,:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:,:,:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_complex_8_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(in) :: a(:,:,:,:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_complex_8_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      complex(kind=8), intent(inout) :: a(:,:,:,:,:,:,:)
+      complex(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = transfer(z%data(z%read_position:z%read_position+data_size-1),a)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:,:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:,:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:,:,:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:,:,:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_4_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(in) :: a(:,:,:,:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_4_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=4), intent(inout) :: a(:,:,:,:,:,:,:)
+      real(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = transfer(z%data(z%read_position:z%read_position+data_size-1),a)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:,:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:,:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:,:,:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:,:,:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_real_8_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(in) :: a(:,:,:,:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_real_8_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      real(kind=8), intent(inout) :: a(:,:,:,:,:,:,:)
+      real(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = transfer(z%data(z%read_position:z%read_position+data_size-1),a)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:,:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:,:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:,:,:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:,:,:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_4_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(in) :: a(:,:,:,:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_4_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=4), intent(inout) :: a(:,:,:,:,:,:,:)
+      integer(kind=4) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_0(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = transfer(z%data(z%read_position:z%read_position+data_size-1),a)
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_1(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_2(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_3(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_4(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:,:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_5(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:,:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:,:,:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_6(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:,:,:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
+
+   subroutine zeromq_packet_append_integer_8_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(in) :: a(:,:,:,:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
+   end subroutine
+   subroutine zeromq_packet_read_integer_8_7(z, a)
+      type(zeromq_packet), intent(inout) :: z
+      integer(kind=8), intent(inout) :: a(:,:,:,:,:,:,:)
+      integer(kind=8) :: b
+      character(kind=c_char) :: c
+      integer :: data_size
+      data_size = c_sizeof(b)*size(a)
+      if (z%read_position + data_size <= z%data_size +1 ) then
+         if (data_size > 0) then
+            a = reshape(transfer(z%data(z%read_position:z%read_position+data_size-1),a),shape(a))
+            z%read_position=z%read_position+data_size
+         else
+            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
+         endif
+      else
+         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
+      endif
+   end subroutine
