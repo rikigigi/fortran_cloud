@@ -42,7 +42,7 @@ call zeromq_packet_send(packet, ctx) !send everything over the wire. the packet 
 !do whathever you have to do...
 
 !when you have some spare time, check if the result is back
- call zeromq_packet_try_to_recv(packet, ctx, recv) ! data, tag and recv are intent(out), non blocking request
+ call zeromq_packet_try_to_recv(packet, ctx, recv) ! non blocking request
  if (recv > 0) then
     !we have the result! read the data from the packet with read, in the same order you used in the other program to write it
     call zeromq_packet_read(packet, any_variable_3)
