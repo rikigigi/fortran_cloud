@@ -29,6 +29,19 @@ contains
 
 #include "contains_sub.fh"
 
+   subroutine zeromq_packet_free(z)
+      type(zeromq_packet), intent(inout) :: z
+
+      if (z%allocated_size>0) then
+          deallocate(z%data)
+      end if
+      nullify(z%data)
+      z%allocated_size=0
+      z%data_size = 0
+      z%read_position = 0
+      z%sent = 0
+   end subroutine
+
    subroutine zeromq_packet_realloc(z, requested_size)
       type(zeromq_packet), intent(inout) :: z
       integer,intent(in) :: requested_size
