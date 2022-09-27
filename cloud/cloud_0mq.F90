@@ -74,14 +74,26 @@ contains
       z%read_position=1
    end subroutine
 
-   subroutine zeromq_packet_append_char(z, wdata, data_size)
+   subroutine zeromq_packet_append_char(z, wdata, data_size_)
       type(zeromq_packet), intent(inout) :: z
       character(kind=c_char), intent(in) :: wdata(:)
-      integer,intent(in) :: data_size
+      integer,intent(in) :: data_size_
+      !!
+      integer :: data_size, offset
+      character(kind=c_char) :: c
+
+
+      data_size = data_size_+c_sizeof(data_size_)
+      offset = 0
 
       if (data_size + z%data_size > z%allocated_size) &
           call zeromq_packet_realloc(z,(data_size + z%data_size)*3/2) ! alloc some extra space
-      z%data(1+z%data_size:z%data_size+data_size)=wdata(1:data_size)
+      !write data size
+      offset = 1+z%data_size
+      z%data(offset:offset+c_sizeof(data_size)-1)=transfer(data_size_,c,c_sizeof(data_size_))
+      !write data
+      offset = offset + c_sizeof(data_size_)
+      z%data(offset:offset+data_size_-1)=wdata(1:data_size_)
       z%data_size=z%data_size+data_size
    end subroutine
 
@@ -89,9 +101,20 @@ contains
       type(zeromq_packet), intent(inout) :: z
       integer, intent(in) :: data_size
       character(kind=c_char), intent(inout) :: rdata(:)
-      if (z%read_position + data_size <= z%data_size ) then
+      !!
+      integer :: readed_data_size
+      if (z%read_position + data_size + c_sizeof(readed_data_size) <= z%data_size ) then
          if (data_size > 0) then
-            rdata(1:data_size) = z%data(z%read_position:z%read_position+data_size-1)
+            readed_data_size = transfer(&
+                     z%data(z%read_position:z%read_position+c_sizeof(readed_data_size)-1),&
+                     readed_data_size)
+            if (.not. (readed_data_size == data_size) ) then
+                write (*,*) 'ERROR: readed data size (', readed_data_size, 'bytes ) is different from ',&
+                       data_size 
+            endif
+            z%read_position = z%read_position + c_sizeof(readed_data_size)
+            rdata(1:data_size) =&
+                    z%data(z%read_position:z%read_position+data_size-1)
             z%read_position=z%read_position+data_size
          else
             write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
