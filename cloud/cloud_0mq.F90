@@ -14,7 +14,7 @@ module cloud_0mq
 
    !write like interface
    type :: zeromq_packet
-      character(kind=c_char), pointer :: data(:)
+      character(kind=c_char), pointer :: data(:) => NULL()
       integer :: data_size = 0
       integer :: allocated_size = 0
       integer :: read_position = 0
