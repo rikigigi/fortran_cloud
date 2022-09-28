@@ -27,6 +27,8 @@ test_send_packet: test_packet.f90 $(LIBOBJ)
 test_recv_packet: test_recv_packet.f90 $(LIBOBJ)
 	$(F90) -o $@ $^ $(F90FLAGS) $(LIBS)
 
+test_packet_read_write: test_packet_read_write.f90 $(LIBOBJ)
+	$(F90) -o $@ $^ $(F90FLAGS) $(LIBS)
 .PHONY: clean
 
 clean:

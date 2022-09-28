@@ -40,22 +40,21 @@ for t in dtype:
       call zeromq_packet_append_char(z,transfer(a,c,data_size),data_size)
    end subroutine
    subroutine zeromq_packet_read_{t}_{k}_{r}(z, a)
+      use iso_c_binding, only: c_ptr, c_loc, c_f_pointer
+
       type(zeromq_packet), intent(inout) :: z
-      {t}(kind={k}), intent(inout) :: a{molds[r]}
+      {t}(kind={k}), intent(inout),target :: a{molds[r]}
       {t}(kind={k}) :: b
       character(kind=c_char) :: c
+      character(kind=c_char), pointer :: wdata(:)
+      type(c_ptr) :: wdata_c_ptr
       integer :: data_size
+
       data_size = c_sizeof(b){'*size(a)' if r>0 else ''}
-      if (z%read_position + data_size <= z%data_size +1 ) then
-         if (data_size > 0) then
-            a = {'reshape(' if r>0 else ''}transfer(z%data(z%read_position:z%read_position+data_size-1),a){',shape(a))' if r>0 else ''}
-            z%read_position=z%read_position+data_size
-         else
-            write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
-         endif
-      else
-         write (*,*) 'ERROR: cannot read past the end of the data packet', z%read_position + data_size , z%data_size
-      endif
+      wdata_c_ptr = c_loc(a)
+      call c_f_pointer(wdata_c_ptr, wdata,[data_size])
+      write(*,*) data_size
+      call zeromq_packet_read_char(z, wdata, data_size)
    end subroutine
 '''
 proc_write+='''end interface
