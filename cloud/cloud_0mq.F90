@@ -102,8 +102,9 @@ contains
       integer, intent(in) :: data_size
       character(kind=c_char), intent(inout) :: rdata(:)
       !!
-      integer :: readed_data_size
-      if (z%read_position + data_size + c_sizeof(readed_data_size) <= z%data_size ) then
+      integer :: readed_data_size, last_pos
+      last_pos = z%read_position + data_size + c_sizeof(readed_data_size) - 1
+      if (last_pos <= z%data_size ) then
          if (data_size > 0) then
             readed_data_size = transfer(&
                      z%data(z%read_position:z%read_position+c_sizeof(readed_data_size)-1),&
@@ -112,6 +113,7 @@ contains
                 write (*,*) 'ERROR: readed data size (', readed_data_size, 'bytes ) is different from ',&
                        data_size 
             endif
+            WRITE (*,*) 'data size is', readed_data_size
             z%read_position = z%read_position + c_sizeof(readed_data_size)
             rdata(1:data_size) =&
                     z%data(z%read_position:z%read_position+data_size-1)
@@ -120,7 +122,7 @@ contains
             write (*,*) 'ERROR: requested read of ', data_size, 'bytes'
          endif
       else
-         write (*,*) 'ERROR: cannot read past the end of the data packet'
+         write (*,*) 'ERROR: cannot read past the end of the data packet ', z%data_size, last_pos
       endif
    end subroutine
 
